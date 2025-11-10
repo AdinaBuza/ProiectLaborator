@@ -24,6 +24,15 @@
             <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Adăugat pentru a rezolva eroarea taglib din cars.jsp (JSTL Core) -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

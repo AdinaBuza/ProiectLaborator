@@ -14,7 +14,6 @@
         <div class="col">Car 2</div>
       </div>
 
-        <%-- Coloana 2: Locul de Parcare --%>
       <div class="col">
         <div class="col">Spot 1</div>
         <div class="col">Spot 2</div>

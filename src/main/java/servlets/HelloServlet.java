@@ -1,4 +1,4 @@
-package org.example.parkinglottt;
+package servlets;
 
 import java.io.*;
 

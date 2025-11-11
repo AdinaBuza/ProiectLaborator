@@ -1,4 +1,4 @@
-package org.example.parkinglot.servlets;
+package servlets;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -12,9 +12,9 @@ public class Cars extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
 
-        request.setAttribute("activePage", "About");
+        request.setAttribute("numberOfFreeParkingSpots", "10");
 
-        request.getRequestDispatcher("/WEB-INF/pages/about.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request, response);
     }
 
     @Override

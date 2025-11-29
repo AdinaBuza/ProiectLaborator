@@ -37,5 +37,5 @@ public class UsersBean {
             userDtos.add(dto);
         }
         return userDtos;
-    }
+}
 }

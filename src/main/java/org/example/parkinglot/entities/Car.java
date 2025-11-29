@@ -16,8 +16,8 @@ public class Car {
     @Column(name = "parking_spot")
     private String parkingSpot;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     public User getOwner() {
@@ -27,6 +27,7 @@ public class Car {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
 
     public Long getId() {
         return id;

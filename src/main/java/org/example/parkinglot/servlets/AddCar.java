@@ -1,7 +1,10 @@
 package org.example.parkinglot.servlets;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +16,9 @@ import org.example.parkinglot.common.UserDto;
 import org.example.parkinglot.ejb.CarsBean;
 import org.example.parkinglot.ejb.UsersBean;
 
+
+@DeclareRoles({"WRITE_CARS"})
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"WRITE_CARS"}))
 @WebServlet(name = "AddCar", value = "/AddCar")
 public class AddCar extends HttpServlet {
 
@@ -26,6 +32,7 @@ public class AddCar extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<UserDto> users = usersBean.findAllUsers();
         request.setAttribute("users", users);
+
         request.getRequestDispatcher("/WEB-INF/pages/addCar.jsp").forward(request, response);
     }
 
@@ -39,5 +46,5 @@ public class AddCar extends HttpServlet {
         carsBean.createCar(licensePlate, parkingSpot, userId);
 
         response.sendRedirect(request.getContextPath() + "/Cars");
-}
+    }
 }

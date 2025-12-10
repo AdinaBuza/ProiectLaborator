@@ -1,5 +1,6 @@
 package org.example.parkinglot.servlets;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -10,6 +11,11 @@ import org.example.parkinglot.ejb.UsersBean;
 import java.io.IOException;
 import java.util.List;
 
+@DeclareRoles({"READ_USERS", "WRITE_USERS"})
+@ServletSecurity(
+        value = @HttpConstraint(rolesAllowed = {"READ_USERS"}),
+        httpMethodConstraints = {@HttpMethodConstraint(value = "POST", rolesAllowed = {"WRITE_USERS"})}
+)
 @WebServlet(name = "Users", value = "/Users")
 public class Users extends HttpServlet {
 
@@ -21,9 +27,7 @@ public class Users extends HttpServlet {
             ServletException, IOException {
 
         List<UserDto> users = usersBean.findAllUsers();
-
         request.setAttribute("users", users);
-
         request.setAttribute("activePage", "Users");
 
         request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
@@ -32,5 +36,6 @@ public class Users extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
-}
+
+    }
 }

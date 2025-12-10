@@ -4,30 +4,57 @@
 
 <t:pageTemplate pageTitle="Cars">
   <h1>Cars</h1>
+
+  <!-- Formularul începe aici -->
   <form method="POST" action="${pageContext.request.contextPath}/Cars">
-    <a href="${pageContext.request.contextPath}/AddCar" class="btn btn-primary btn-lg">Add Car</a>
-    <button class="btn btn-danger btn-lg" type="submit">Delete Cars</button>
+
+    <!-- Buton ADD CAR - Vizibil doar pentru WRITE_CARS -->
+    <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
+      <a href="${pageContext.request.contextPath}/AddCar"
+         class="btn btn-primary btn-lg mb-3">
+        Add Car
+      </a>
+    </c:if>
+
+    <!-- Buton DELETE CARS - Vizibil doar pentru WRITE_CARS -->
+    <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
+      <button class="btn btn-danger mb-3" type="submit">Delete Cars</button>
+    </c:if>
+
     <div class="container text-center">
       <c:forEach var="car" items="${cars}">
-        <div class="row">
-          <div class="col-md-1">
-            <input type="checkbox" name="car_ids" value="${car.id}" />
-          </div>
-          <div class="col-md-3">
+        <div class="row mb-2 align-items-center">
+
+          <!-- Coloana Checkbox - Vizibilă doar pentru WRITE_CARS -->
+          <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
+            <div class="col">
+              <input type="checkbox" name="car_ids" value="${car.id}" />
+            </div>
+          </c:if>
+
+          <!-- Datele mașinii -->
+          <div class="col">
               ${car.licensePlate}
           </div>
-          <div class="col-md-3">
+          <div class="col">
               ${car.parkingSpot}
           </div>
-          <div class="col-md-3">
+          <div class="col">
               ${car.ownerName}
           </div>
-          <div class="col-md-2">
-            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditCar?id=${car.id}">Edit Car</a>
-          </div>
+
+          <!-- Buton Edit - Vizibil doar pentru WRITE_CARS -->
+          <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
+            <div class="col">
+              <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditCar?id=${car.id}">Edit Car</a>
+            </div>
+          </c:if>
+
         </div>
       </c:forEach>
     </div>
+
   </form>
-  <h5>Free parking spots: ${numberOfFreeParkingSpots}</h5>
+
+  <h5 class="mt-3">Free parking spots: ${numberOfFreeParkingSpots}</h5>
 </t:pageTemplate>

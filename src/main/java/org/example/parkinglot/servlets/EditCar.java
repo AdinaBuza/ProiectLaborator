@@ -1,11 +1,10 @@
 package org.example.parkinglot.servlets;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import org.example.parkinglot.common.CarDto;
 import org.example.parkinglot.common.UserDto;
 import org.example.parkinglot.ejb.CarsBean;
@@ -14,8 +13,11 @@ import org.example.parkinglot.ejb.UsersBean;
 import java.io.IOException;
 import java.util.List;
 
+@DeclareRoles({"WRITE_CARS"})
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"WRITE_CARS"}))
 @WebServlet(name = "EditCar", value = "/EditCar")
 public class EditCar extends HttpServlet {
+
     @Inject
     UsersBean usersBean;
 

@@ -1,7 +1,6 @@
 package org.example.parkinglot.ejb;
 
 import jakarta.ejb.Stateless;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -14,17 +13,13 @@ public class PasswordBean {
     public String convertToSha256(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
+            messageDigest.update(password.getBytes());
             byte[] digest = messageDigest.digest();
-            final StringBuilder hexString = new StringBuilder();
-            for (int i = 0; i < digest.length; i++) {
-                final String hex = Integer.toHexString(0xff & digest[i]);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
+            StringBuilder result = new StringBuilder();
+            for (byte b : digest) {
+                result.append(String.format("%02x", b));
             }
-            return hexString.toString();
+            return result.toString();
         } catch (NoSuchAlgorithmException ex) {
             LOG.log(Level.SEVERE, "Could not convert password", ex);
         }

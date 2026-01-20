@@ -49,10 +49,6 @@
                         </li>
                     </c:if>
 
-                    <!-- AICI AM PUS INAPOI LINK SI DISABLED -->
-                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-
                 </ul>
 
                 <ul class="navbar-nav">

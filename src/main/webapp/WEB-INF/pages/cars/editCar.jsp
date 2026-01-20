@@ -25,7 +25,6 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label for="parking_spot">Parking Spot</label>
-        <!-- Observă atributul value="${car.parkingSpot}" -->
         <input type="text" class="form-control" id="parking_spot" name="parking_spot"
                placeholder="" value="${car.parkingSpot}" required>
         <div class="invalid-feedback">
@@ -41,7 +40,6 @@
         <select class="custom-select d-block w-100" id="owner_id" name="owner_id" required>
           <option value="">Choose...</option>
           <c:forEach var="user" items="${users}">
-            <!-- Logica de selecție: Dacă numele proprietarului mașinii este egal cu userul din listă, îl selectăm -->
             <option value="${user.id}" ${car.ownerName eq user.username ? 'selected' : ''}>${user.username}</option>
           </c:forEach>
         </select>
@@ -53,13 +51,11 @@
 
     <hr class="mb-4">
 
-    <!-- INPUT ASCUNS PENTRU ID (CRITIC PENTRU UPDATE) -->
     <input type="hidden" name="car_id" value="${car.id}" />
 
     <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
   </form>
 
-  <!-- Script pentru validarea formularului (Bootstrap standard) -->
   <script>
     (function () {
       'use strict'

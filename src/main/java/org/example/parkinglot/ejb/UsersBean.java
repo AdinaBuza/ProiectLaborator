@@ -44,7 +44,6 @@ public class UsersBean {
         return userDtoList;
     }
 
-
     public void createUser(String username, String email, String password, Collection<String> groups) {
         LOG.info("createUser");
         User newUser = new User();
@@ -52,7 +51,6 @@ public class UsersBean {
         newUser.setEmail(email);
         newUser.setPassword(passwordBean.convertToSha256(password));
         entityManager.persist(newUser);
-
         assignGroupsToUser(username, groups);
     }
 
@@ -64,5 +62,29 @@ public class UsersBean {
             userGroup.setUserGroup(group);
             entityManager.persist(userGroup);
         }
+    }
+
+    // --- METODA NOUĂ PENTRU INVOICE ---
+    public Collection<String> findUsernamesByUserIds(Collection<Long> userIds) {
+        return entityManager.createQuery("SELECT u.username FROM User u WHERE u.id IN :userIds", String.class)
+                .setParameter("userIds", userIds)
+                .getResultList();
+    }
+
+    // --- METODA PENTRU EDIT USER (Task 3) ---
+    public UserDto findById(Long id) {
+        User user = entityManager.find(User.class, id);
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail());
+    }
+
+    public void updateUser(Long userId, String username, String email, String password, Collection<String> groups) {
+        LOG.info("updateUser");
+        User user = entityManager.find(User.class, userId);
+        user.setUsername(username);
+        user.setEmail(email);
+        if (password != null && !password.isEmpty()) {
+            user.setPassword(passwordBean.convertToSha256(password));
+        }
+        assignGroupsToUser(username, groups);
     }
 }

@@ -5,10 +5,8 @@
 <t:pageTemplate pageTitle="Cars">
   <h1>Cars</h1>
 
-  <!-- Formularul începe aici -->
   <form method="POST" action="${pageContext.request.contextPath}/Cars">
 
-    <!-- Buton ADD CAR - Vizibil doar pentru WRITE_CARS -->
     <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
       <a href="${pageContext.request.contextPath}/AddCar"
          class="btn btn-primary btn-lg mb-3">
@@ -16,7 +14,6 @@
       </a>
     </c:if>
 
-    <!-- Buton DELETE CARS - Vizibil doar pentru WRITE_CARS -->
     <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
       <button class="btn btn-danger mb-3" type="submit">Delete Cars</button>
     </c:if>
@@ -25,14 +22,12 @@
       <c:forEach var="car" items="${cars}">
         <div class="row mb-2 align-items-center">
 
-          <!-- Coloana Checkbox - Vizibilă doar pentru WRITE_CARS -->
           <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
             <div class="col">
               <input type="checkbox" name="car_ids" value="${car.id}" />
             </div>
           </c:if>
 
-          <!-- Datele mașinii -->
           <div class="col">
               ${car.licensePlate}
           </div>
@@ -43,8 +38,14 @@
               ${car.ownerName}
           </div>
 
-          <!-- Buton Edit - Vizibil doar pentru WRITE_CARS -->
+          <div class="col">
+            <img src="${pageContext.request.contextPath}/CarPhotos?id=${car.id}" width="50" />
+          </div>
+
           <c:if test="${pageContext.request.isUserInRole('WRITE_CARS')}">
+            <div class="col">
+              <a class="btn btn-secondary" href="${pageContext.request.contextPath}/AddCarPhoto?id=${car.id}">Add photo</a>
+            </div>
             <div class="col">
               <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditCar?id=${car.id}">Edit Car</a>
             </div>

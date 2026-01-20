@@ -1,6 +1,5 @@
-package org.example.parkinglot.servlets;
+package org.example.parkinglot.servlets.cars;
 
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -9,16 +8,13 @@ import org.example.parkinglot.common.CarDto;
 import org.example.parkinglot.ejb.CarsBean;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-@DeclareRoles({"READ_CARS", "WRITE_CARS"})
-@ServletSecurity(
-        value = @HttpConstraint(rolesAllowed = {"READ_CARS"}),
-        httpMethodConstraints = {@HttpMethodConstraint(value = "POST", rolesAllowed = {"WRITE_CARS"})}
-)
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"READ_CARS"}))
 @WebServlet(name = "Cars", value = "/Cars")
 public class Cars extends HttpServlet {
+
     @Inject
     CarsBean carsBean;
 
@@ -26,16 +22,18 @@ public class Cars extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<CarDto> cars = carsBean.findAllCars();
         request.setAttribute("cars", cars);
-        request.setAttribute("numberOfFreeParkingSpots", "10");
-        request.setAttribute("activePage", "Cars");
 
-        request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request, response);
+        // Task 4: Trimitem numărul de locuri libere
+        int numberOfFreeParkingSpots = carsBean.getFreeParkingSpots();
+        request.setAttribute("numberOfFreeParkingSpots", numberOfFreeParkingSpots);
+
+        request.setAttribute("activePage", "Cars");
+        request.getRequestDispatcher("/WEB-INF/pages/cars/cars.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] carIdsAsString = request.getParameterValues("car_ids");
-
         if (carIdsAsString != null) {
             List<Long> carIds = new ArrayList<>();
             for (String carIdAsString : carIdsAsString) {
@@ -43,7 +41,6 @@ public class Cars extends HttpServlet {
             }
             carsBean.deleteCarsByIds(carIds);
         }
-
         response.sendRedirect(request.getContextPath() + "/Cars");
     }
 }

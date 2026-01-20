@@ -1,14 +1,10 @@
 package org.example.parkinglot.entities;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
-@Table(name = "usergroups")
-public class UserGroup implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Table(name = "user_groups")
+public class UserGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +12,10 @@ public class UserGroup implements Serializable {
 
     private String username;
 
-    @Column(name = "USERGROUP")
+    @Column(name = "user_group")
     private String userGroup;
 
-    public UserGroup() {
-    }
-
-    public UserGroup(String username, String userGroup) {
-        this.username = username;
-        this.userGroup = userGroup;
-    }
-
+    // Getters și Setters
     public Long getId() {
         return id;
     }
@@ -49,18 +38,5 @@ public class UserGroup implements Serializable {
 
     public void setUserGroup(String userGroup) {
         this.userGroup = userGroup;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserGroup userGroup1 = (UserGroup) o;
-        return Objects.equals(id, userGroup1.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
